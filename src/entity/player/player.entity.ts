@@ -1,16 +1,13 @@
-import { IsNotEmpty, IsInt, IsString, Min } from 'class-validator';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity()
 export class PlayerEntity {
-  @IsNotEmpty()
-  @IsInt()
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @IsNotEmpty()
-  @IsString()
+  @Column({ length: 500 })
   name: string;
 
-  @IsNotEmpty()
-  @IsInt()
-  @Min(0)
+  @Column('int')
   score: number;
 }

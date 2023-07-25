@@ -1,30 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import  { PlayerEntity } from '../../entity/player/player.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { PlayerEntity } from '../../entity/player/player.entity';
 
 @Injectable()
-export class PlayerService{
-  private players: PlayerEntity[] = [];
+export class PlayerService {
+  constructor(
+    @InjectRepository(PlayerEntity)
+    private playersRepository: Repository<PlayerEntity>,
+  ) {}
 
   create(player: PlayerEntity) {
-    this.players.push(player);
+    return this.playersRepository.save(player);
   }
 
   findAll() {
-    return this.players;
+    return this.playersRepository.find();
   }
 
   findOne(id: number) {
-    return this.players.find(player => player.id === id);
+    return this.playersRepository.findOne({ where: { id: id } });
   }
 
-  delete(id: number) {
-    this.players = this.players.filter(player => player.id !== id);
+  async delete(id: number) {
+    await this.playersRepository.delete(id);
   }
 
-  update(id: number, player: PlayerEntity) {
-    const index = this.players.findIndex(existingPlayer => existingPlayer.id === id);
-    if (index > -1) {
-      this.players[index] = player;
-    }
+  async update(id: number, player: PlayerEntity) {
+    await this.playersRepository.update(id, player);
   }
 }

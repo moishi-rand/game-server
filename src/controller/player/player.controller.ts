@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ParseIntPipe } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PlayerService } from '../../service/player/player.service';
@@ -25,7 +33,10 @@ export class PlayerController {
   }
 
   @Put(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() updatePlayerEntity: PlayerEntity) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updatePlayerEntity: PlayerEntity,
+  ) {
     return this.playersService.update(id, updatePlayerEntity);
   }
 
